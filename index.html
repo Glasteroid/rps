@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <button type="button">Rock</button>
+    <button type="button">Paper</button>
+    <button type="button">Scissors</button>
+    <span><div class="results"></div></span>
 </head>
 <body>
     <script>
@@ -23,45 +27,78 @@
             }
         }
 
-        function getHumanChoice() {
-            return prompt("Would you like to be rock, paper, or scissors?");
-        }
+        // function getHumanChoice() {
+        //     return prompt("Would you like to be rock, paper, or scissors?");
+        // }
 
         let humanScore = 0;
         let computerScore = 0;
 
         function playRound(humanChoice, computerChoice) {
-            let csHumanChoice = humanChoice.toLowerCase();
-
-            if (csHumanChoice === "rock" && computerChoice === "scissors" || csHumanChoice === "paper" && computerChoice === "rock" || csHumanChoice === "scissors" && computerChoice === "paper") {
-                console.log("You have won this round!")
+            let result = "";
+            if (humanChoice === computerChoice) {
+                result = `It's a tie! Both chose ${humanChoice}`;
+            } else if (
+                (humanChoice === "rock" && computerChoice === "scissors") ||
+                (humanChoice === "paper" && computerChoice === "rock") ||
+                (humanChoice === "scissors" && computerChoice === "paper")
+            ) {
+                result = `You win! ${humanChoice} beats ${computerChoice}`;
                 humanScore++;
-            }
-
-            else if (computerChoice === "rock" && csHumanChoice === "scissors" || computerChoice === "paper" && csHumanChoice === "rock" || computerChoice === "scissors" && csHumanChoice === "paper") {
-                console.log("The computer won this round!")
+            } else {
+                result = `Computer wins! ${computerChoice} beats ${humanChoice}`;
                 computerScore++;
             }
+
+            document.querySelector(".results").textContent = `
+                ${result}
+                Human: ${humanScore} | Computer: ${computerScore}
+            `;
         }
 
-        function playGame() {
-            for (let i = 0; i < 5; i++) {
-                const humanSelection = getHumanChoice();
-                const computerSelection = getComputerChoice();
-
-                playRound(humanSelection, computerSelection);
-            }
-
-            if (humanScore > computerScore) {
-                console.log("Congratulations, you have won!")
-            }
-
-            else {
-                console.log("Sorry, the computer has defeated you.")
+        function getHumanChoice(event) {
+            switch (event.target.textContent) {
+                case "Rock":  
+                    return "rock";
+                case "Paper":
+                    return "paper";
+                case "Scissors":
+                    return "scissors";
+                default:
+                    return null;
             }
         }
 
-        playGame();
+        const buttons = document.querySelectorAll("button");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                const humanChoice = getHumanChoice(event);
+                const computerChoice = getComputerChoice(event);
+                playRound(humanChoice, computerChoice);
+            })
+        })
+
+        // function playGame() {
+        //     for (let i = 0; i < 5; i++) {
+        //         const humanSelection = getHumanChoice();
+        //         const computerSelection = getComputerChoice();
+
+        //         playRound(humanSelection, computerSelection);
+        //     }
+
+        //     if (humanScore > computerScore) {
+        //         console.log("Congratulations, you have won!")
+        //     }
+
+        //     else {
+        //         console.log("Sorry, the computer has defeated you.")
+        //     }
+        // }
+
+        // playGame();
+
+
     </script>
 </body>
 </html>
