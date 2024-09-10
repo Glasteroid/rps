@@ -38,14 +38,20 @@
             let result = "";
             if (humanChoice === computerChoice) {
                 result = `It's a tie! Both chose ${humanChoice}`;
-            } else if (
+            } 
+            
+            else if (
                 (humanChoice === "rock" && computerChoice === "scissors") ||
                 (humanChoice === "paper" && computerChoice === "rock") ||
                 (humanChoice === "scissors" && computerChoice === "paper")
-            ) {
+            ) 
+            
+            {
                 result = `You win! ${humanChoice} beats ${computerChoice}`;
                 humanScore++;
-            } else {
+            } 
+            
+            else {
                 result = `Computer wins! ${computerChoice} beats ${humanChoice}`;
                 computerScore++;
             }
@@ -69,6 +75,23 @@
             }
         }
 
+        function checkWinner() {
+            if (humanScore === 5 || computerScore === 5){
+                if (humanScore > computerScore) {
+                    result = `Final score: ${humanScore} - ${computerScore}, you win the game!`;
+                } 
+                
+                else {
+                    result = `Final score: ${computerScore} - ${humanScore}, the computer wins the game :(`;
+                }
+            }
+
+            document.querySelector(".results").textContent = result;
+
+            const buttons = document.querySelectorAll("button");
+            buttons.forEach(button => button.disabled = true);
+        }
+
         const buttons = document.querySelectorAll("button");
 
         buttons.forEach((button) => {
@@ -76,6 +99,7 @@
                 const humanChoice = getHumanChoice(event);
                 const computerChoice = getComputerChoice(event);
                 playRound(humanChoice, computerChoice);
+                checkWinner();
             })
         })
 
